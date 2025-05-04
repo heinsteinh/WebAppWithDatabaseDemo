@@ -18,17 +18,20 @@ steps:
   inputs:
     packageType: 'runtime'
     version: '3.1.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: UseDotNet@2
   displayName: 'Install net5_x'
   inputs:
     packageType: 'runtime'
     version: '5.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 - task: UseDotNet@2
   displayName: 'Install .NET Core runtime'
   inputs:
     packageType: "runtime"
     version: "8.0.6"
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: UseDotNet@2
   displayName: Install .NET 6 sdk
@@ -60,7 +63,13 @@ steps:
     projects: '**/WebApp.csproj'
     arguments: '--configuration $(BuildConfiguration)'
 
-
+- task: DotNetCoreCLI@2
+  displayName: Run Unit Tests
+  inputs:
+    command: test
+    projects: '**/*UnitTest*.csproj'
+    arguments: '--configuration $(BuildConfiguration)'
+    
 - task: DotNetCoreCLI@2
   displayName: Create Web App Package (.zip)
   inputs:
