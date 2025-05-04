@@ -12,6 +12,11 @@ variables:
   BuildConfiguration: release
   
 steps:
+- task: UseDotNet@2
+  displayName: 'Install .NET Core runtime'
+  inputs:
+    packageType: "runtime"
+    version: "8.0.6"
 
 - task: UseDotNet@2
   displayName: Install .NET 6 sdk
